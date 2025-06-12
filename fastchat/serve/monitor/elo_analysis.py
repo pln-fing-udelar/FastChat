@@ -545,5 +545,7 @@ if __name__ == "__main__":
         ).strftime("%Y%m%d")
         print(f"last update : {cutoff_date}")
 
+        print(results[cat]["leaderboard_table_df"])
+
     with open(f"elo_results_{cutoff_date}.pkl", "wb") as fout:
         pickle.dump(results, fout)
