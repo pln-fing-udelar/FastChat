@@ -71,6 +71,9 @@ def compute_pairwise_win_fraction(battles, model_order, limit_show_number=None):
     if limit_show_number is not None:
         model_order = model_order[:limit_show_number]
 
+    available_models = frozenset(row_beats_col_freq.columns)
+    model_order = [model for model in available_models if model in available_models]
+
     # Arrange ordering according to proprition of wins
     row_beats_col = row_beats_col_freq.loc[model_order, model_order]
     return row_beats_col
@@ -126,6 +129,8 @@ def visualize_battle_count(battles, model_order, scale=1):
         battles, index="model_a", columns="model_b", aggfunc="size", fill_value=0
     )
     battle_counts = ptbl + ptbl.T
+    available_models = frozenset(battle_counts.columns)
+    model_order = [model for model in available_models if model in available_models]
     fig = px.imshow(
         battle_counts.loc[model_order, model_order],
         text_auto=True,
