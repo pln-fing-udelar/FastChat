@@ -23,7 +23,10 @@ from fastapi.security.http import HTTPAuthorizationCredentials, HTTPBearer
 try:
     import httpx2 as httpx
 except ImportError:
-    import httpx
+    try:
+        import httpx
+    except ImportError:
+        httpx = None
 
 from pydantic_settings import BaseSettings
 import shortuuid
@@ -681,6 +684,11 @@ async def generate_completion_stream_generator(
 
 
 async def generate_completion_stream(payload: Dict[str, Any], worker_addr: str):
+    if httpx is None:
+        raise ImportError(
+            "fastchat.serve.openai_api_server requires httpx2 or httpx. "
+            "Please install it with: pip install 'fschat[api]'"
+        )
     controller_address = app_settings.controller_address
     async with httpx.AsyncClient() as client:
         delimiter = b"\0"
@@ -879,6 +887,11 @@ async def create_chat_completion(request: APIChatCompletionRequest):
 
 
 def create_openai_api_server():
+    if httpx is None:
+        raise ImportError(
+            "fastchat.serve.openai_api_server requires httpx2 or httpx. "
+            "Please install it with: pip install 'fschat[api]'"
+        )
     parser = argparse.ArgumentParser(
         description="FastChat ChatGPT-Compatible RESTful API server."
     )
