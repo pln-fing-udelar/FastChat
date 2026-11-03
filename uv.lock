@@ -2307,6 +2307,19 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
+analysis = [
+    { name = "pandas", version = "2.0.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+    { name = "pandas", version = "2.3.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9' and python_full_version < '3.11'" },
+    { name = "pandas", version = "3.1.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "plotly" },
+    { name = "pytz" },
+    { name = "scipy", version = "1.10.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+    { name = "scipy", version = "1.13.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
+    { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
+    { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*'" },
+    { name = "scipy", version = "1.18.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "tqdm" },
+]
 dev = [
     { name = "black" },
     { name = "pylint" },
@@ -2372,7 +2385,9 @@ requires-dist = [
     { name = "numpy" },
     { name = "openai", marker = "extra == 'llm-judge'", specifier = "<1" },
     { name = "openai", marker = "extra == 'model-worker'" },
+    { name = "pandas", marker = "extra == 'analysis'" },
     { name = "peft", marker = "extra == 'model-worker'" },
+    { name = "plotly", marker = "extra == 'analysis'" },
     { name = "plotly", marker = "extra == 'webui'" },
     { name = "prompt-toolkit", specifier = ">=3.0.0" },
     { name = "protobuf", marker = "extra == 'model-worker'" },
@@ -2380,18 +2395,21 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.0.0,<3" },
     { name = "pydantic-settings" },
     { name = "pylint", marker = "extra == 'dev'", specifier = "==2.8.2" },
+    { name = "pytz", marker = "extra == 'analysis'" },
     { name = "ray", marker = "extra == 'llm-judge'" },
     { name = "requests" },
     { name = "rich", specifier = ">=10.0.0" },
+    { name = "scipy", marker = "extra == 'analysis'" },
     { name = "scipy", marker = "extra == 'webui'" },
     { name = "sentencepiece", marker = "extra == 'model-worker'" },
     { name = "shortuuid" },
     { name = "tiktoken" },
     { name = "torch", marker = "extra == 'model-worker'" },
+    { name = "tqdm", marker = "extra == 'analysis'" },
     { name = "transformers", marker = "extra == 'model-worker'", specifier = ">=4.31.0" },
     { name = "uvicorn" },
 ]
-provides-extras = ["model-worker", "webui", "llm-judge", "dev"]
+provides-extras = ["analysis", "model-worker", "webui", "llm-judge", "dev"]
 
 [[package]]
 name = "fsspec"
