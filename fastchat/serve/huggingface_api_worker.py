@@ -23,6 +23,7 @@ Register models in a JSON file with the following format:
 """
 import argparse
 import asyncio
+import inspect
 import json
 import uuid
 import os
@@ -155,8 +156,17 @@ class HuggingfaceApiWorker(BaseModelWorker):
             else:
                 url = f"{self.api_base}/{self.model_path}"
             client = InferenceClient(url, token=self.token)
+
+            kwargs = dict(gen_kwargs)
+            sig = inspect.signature(InferenceClient.text_generation)
+            if "stop" in sig.parameters:
+                kwargs["stop"] = stop
+                kwargs.pop("stop_sequences", None)
+            else:
+                kwargs["stop_sequences"] = stop
+
             res = client.text_generation(
-                prompt, stream=True, details=True, **gen_kwargs
+                prompt, stream=True, details=True, **kwargs
             )
 
             reason = None
